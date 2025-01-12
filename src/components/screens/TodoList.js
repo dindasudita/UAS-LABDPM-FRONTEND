@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity, 
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'http://192.168.1.3:8000/api/todos';
+const API_URL = 'http://10.234.235.4:3000/api/todos';
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -11,8 +11,8 @@ export default function TodoList() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [token, setToken] = useState('');
-  const [editTodoId, setEditTodoId] = useState(null); // Untuk melacak todo yang sedang diedit
-
+  const [editTodoId, setEditTodoId] = useState(null);
+  const [headerText, setHeaderText] = useState('My Todos');
   useEffect(() => {
     const fetchTodos = async () => {
       const storedToken = await AsyncStorage.getItem('token');
@@ -73,6 +73,7 @@ export default function TodoList() {
       setDescription('');
       setShowForm(false);
       setEditTodoId(null);
+      setHeaderText('My Todos');
     } else {
       alert(result.message || 'Error editing todo');
     }
@@ -98,11 +99,12 @@ export default function TodoList() {
     setDescription('');
     setShowForm(false);
     setEditTodoId(null);
+    setHeaderText('My Todos'); 
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>My Todos</Text>
+      <Text style={styles.header}>{headerText}</Text>
 
       {showForm ? (
         <View style={styles.formContainer}>
@@ -118,8 +120,22 @@ export default function TodoList() {
             value={description}
             onChangeText={setDescription}
           />
-          <Button title={editTodoId ? "Update Todo" : "Add Todo"} onPress={editTodoId ? handleEditTodo : handleAddTodo} />
-          <Button title="Cancel" color="red" onPress={handleCancelEdit} />
+          <View style={styles.buttonContainer}>
+            {editTodoId ? (
+              <>
+                <TouchableOpacity style={styles.updateButton} onPress={handleEditTodo}>
+                  <Text style={styles.buttonText}>Update Todo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.cancelButton} onPress={handleCancelEdit}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <TouchableOpacity style={styles.updateButton} onPress={handleAddTodo}>
+                <Text style={styles.buttonText}>Add Todo</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       ) : (
         <>
@@ -133,7 +149,15 @@ export default function TodoList() {
                   <Text>{item.description}</Text>
                 </View>
                 <View style={styles.actionButtons}>
-                  <TouchableOpacity onPress={() => { setEditTodoId(item._id); setTitle(item.title); setDescription(item.description); setShowForm(true); }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setEditTodoId(item._id);
+                      setTitle(item.title);
+                      setDescription(item.description);
+                      setShowForm(true);
+                      setHeaderText('ToDo Details');
+                    }}
+                  >
                     <Icon name="create" size={20} color="#2464EC" />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => handleDeleteTodo(item._id)}>
@@ -159,33 +183,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#FFF8ED',
   },
   header: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
+    color: '#3B0918',
+    textAlign: 'center',
   },
   formContainer: {
     marginBottom: 20,
+    backgroundColor: '#FFF8ED',
+    padding: 10,
+    borderRadius: 8,
+    elevation: 3,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    borderColor: '#FFC3A0',
+    borderRadius: 8,
     padding: 10,
     marginBottom: 10,
+    backgroundColor: '#FFF',
   },
   todoItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    marginVertical: 5,
+    backgroundColor: '#FDE4D0',
+    elevation: 2,
   },
   todoTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#3B0918',
   },
   actionButtons: {
     flexDirection: 'row',
@@ -195,12 +228,44 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#2464EC',
+    backgroundColor: '#f89700',
     width: 60,
     height: 60,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
+  },
+  actionIcon: {
+    marginHorizontal: 5,
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: '#F7B270',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  updateButton: {
+    flex: 1,
+    marginRight: 5,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#f89700',
+    alignItems: 'center',
+  },
+  cancelButton: {
+    flex: 1,
+    marginLeft: 5,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: '#FFB3A0',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

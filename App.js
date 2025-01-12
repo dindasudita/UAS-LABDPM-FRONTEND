@@ -12,13 +12,14 @@ import ProfileScreen from "./src/components/screens/Profile";
 import LoginScreen from "./src/components/auth/Login";
 import RegisterScreen from "./src/components/auth/Register";
 import BerandaScreen from "./src/components/screens/Beranda";
+import LandingScreen from "./src/components/screens/LandingScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TOKEN_EXPIRATION_DAYS = 2;
 
-// Helper function to get icon name
+
 const getIconName = (routeName) => {
   switch (routeName) {
     case "Beranda":
@@ -32,7 +33,7 @@ const getIconName = (routeName) => {
   }
 };
 
-// MainTabNavigator
+
 function MainTabNavigator({ handleLogout }) {
   return (
     <Tab.Navigator
@@ -40,14 +41,14 @@ function MainTabNavigator({ handleLogout }) {
         tabBarIcon: ({ color, size }) => (
           <Icon name={getIconName(route.name)} size={size} color={color} />
         ),
-        tabBarActiveTintColor: "#2464EC",
+        tabBarActiveTintColor: "#f89700",
         tabBarInactiveTintColor: "gray",
       })}
     >
       <Tab.Screen name="Beranda" component={BerandaScreen} options={{ headerShown: false }} />
       <Tab.Screen name="Todos" component={TodoList} options={{ headerShown: false, title: "Todos" }} />
-      <Tab.Screen name="Profil"options={{headerShown: false}} >
-        {props => <ProfileScreen {...props} onLogout={handleLogout} />}
+      <Tab.Screen name="Profil" options={{ headerShown: false }}>
+        {(props) => <ProfileScreen {...props} onLogout={handleLogout} />}
       </Tab.Screen>
     </Tab.Navigator>
   );
@@ -64,12 +65,15 @@ export default function App() {
         const { token, expiry } = JSON.parse(tokenData);
         const now = new Date();
         if (new Date(expiry) > now) {
-          setLoggedIn(true);
+          setLoggedIn(false);
         } else {
           await AsyncStorage.removeItem("token");
         }
       }
-      setSplashVisible(false);
+     
+      setTimeout(() => {
+        setSplashVisible(false);
+      }, 2000);
     };
     checkLoginStatus();
   }, []);
@@ -77,7 +81,10 @@ export default function App() {
   const handleLogin = async (token) => {
     const expiry = new Date();
     expiry.setDate(expiry.getDate() + TOKEN_EXPIRATION_DAYS);
-    await AsyncStorage.setItem("token", JSON.stringify({ token, expiry: expiry.toISOString() }));
+    await AsyncStorage.setItem(
+      "token",
+      JSON.stringify({ token, expiry: expiry.toISOString() })
+    );
     setLoggedIn(true);
   };
 
@@ -95,24 +102,30 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{
-              headerStyle: { backgroundColor: "#2464EC" },
+              headerStyle: { backgroundColor: "#f89700" },
               headerTintColor: "#fff",
             }}
           >
             {isLoggedIn ? (
               <>
                 <Stack.Screen name="Home" options={{ headerShown: false }}>
-                  {props => <MainTabNavigator {...props} handleLogout={handleLogout} />}
+                  {(props) => (
+                    <MainTabNavigator {...props} handleLogout={handleLogout} />
+                  )}
                 </Stack.Screen>
-             
               </>
             ) : (
               <>
                 <Stack.Screen
+                  name="Landing"
+                  component={LandingScreen}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
                   name="Login"
                   options={{ headerShown: false }}
                 >
-                  {props => <LoginScreen {...props} onLogin={handleLogin} />}
+                  {(props) => <LoginScreen {...props} onLogin={handleLogin} />}
                 </Stack.Screen>
                 <Stack.Screen name="Register" component={RegisterScreen} />
               </>
