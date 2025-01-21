@@ -57,7 +57,7 @@ function MainTabNavigator({ handleLogout }) {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="Favorites"
+        name="FavoritesScreen"
         component={FavoritesScreen} 
         options={{ headerShown: false }}
       />

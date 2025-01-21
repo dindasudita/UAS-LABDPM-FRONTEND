@@ -1,19 +1,20 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 
 export default function FavoritesScreen({ route, navigation }) {
-  const { favorites, recipes } = route.params;
-
-  // Filter recipes to show only the ones that are in favorites
-  const favoriteRecipes = recipes.filter((recipe) =>
-    favorites.includes(recipe._id.$oid)
-  );
+  const { favoriteRecipes = [] } = route.params || {}; // Pastikan route.params tidak null dan ada, jika tidak set array kosong
 
   const renderItem = ({ item }) => (
     <View style={styles.recipeCard}>
       <Text style={styles.recipeTitle}>{item.name}</Text>
-      <Text style={styles.recipeText}>Ingredients: {item.ingredients.join(", ")}</Text>
-      <Text style={styles.recipeText}>Steps: {item.steps.join(", ")}</Text>
+      <Text style={styles.recipeText}>
+        Ingredients:{" "}
+        {Array.isArray(item.ingredients) ? item.ingredients.join(", ") : item.ingredients}
+      </Text>
+      <Text style={styles.recipeText}>
+        Steps:{" "}
+        {Array.isArray(item.steps) ? item.steps.join(", ") : item.steps}
+      </Text>
     </View>
   );
 
@@ -24,12 +25,17 @@ export default function FavoritesScreen({ route, navigation }) {
         <FlatList
           data={favoriteRecipes}
           renderItem={renderItem}
-          keyExtractor={(item) => item._id.$oid}
+          keyExtractor={(item) => item._id.$oid || item._id} // Pastikan ID diakses dengan benar
         />
       ) : (
-        <Text>No favorite recipes yet</Text>
+        <Text style={styles.noFavorites}>No favorite recipes yet</Text>
       )}
-      <Button title="Back to Home" onPress={() => navigation.goBack()} color="#f48a75" />
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.buttonText}>Back to Home</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -70,5 +76,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
     color: "#555555",
+  },
+  noFavorites: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#666",
+    marginTop: 20,
+  },
+  backButton: {
+    backgroundColor: "#f48a75",
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

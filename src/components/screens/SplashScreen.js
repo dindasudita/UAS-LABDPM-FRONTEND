@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f48a75", 
+    backgroundColor: "#fef4f2", 
   },
   logo: {
     width: 150,
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#e85234",
   },
 });

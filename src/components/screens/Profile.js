@@ -13,7 +13,7 @@ export default function ProfileScreen({ onLogout }) {
         if (!tokenData) throw new Error("No token found");
 
         const { token } = JSON.parse(tokenData);
-        const response = await fetch("http://10.234.237.249:8000/api/profile", {
+        const response = await fetch("http://10.234.183.73:8000/api/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
