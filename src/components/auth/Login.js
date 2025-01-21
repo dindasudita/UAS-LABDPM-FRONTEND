@@ -8,9 +8,9 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -24,7 +24,7 @@ export default function LoginScreen({ onLogin }) {
     }
 
     try {
-      const response = await fetch("http://10.234.235.4:3000/api/auth/login", {
+      const response = await fetch("http://10.234.237.249:8000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,14 +52,13 @@ export default function LoginScreen({ onLogin }) {
     >
       <ScrollView>
         <View style={styles.loginHeader}>
-          <Icon name="log-in" size={60} color="#f89700" />
+          <Image source={require('../assets/recipe-logo.jpg')} style={styles.logo} />
           <Text style={styles.loginTitle}>Welcome Back!</Text>
           <Text style={styles.loginSubtitle}>Log in to your account</Text>
         </View>
 
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
-            <Icon name="person-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Username"
@@ -70,7 +69,6 @@ export default function LoginScreen({ onLogin }) {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Icon name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={[styles.input, styles.passwordInput]}
               placeholder="Password"
@@ -83,11 +81,7 @@ export default function LoginScreen({ onLogin }) {
               onPress={() => setShowPassword(!showPassword)}
               style={styles.eyeIcon}
             >
-              <Icon 
-                name={showPassword ? "eye-off-outline" : "eye-outline"} 
-                size={20} 
-                color="#666" 
-              />
+              <Text style={{ color: '#666' }}>👁️</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -100,14 +94,8 @@ export default function LoginScreen({ onLogin }) {
   );
 }
 
-
 const styles = StyleSheet.create({
   loginContainer: {
-    flex: 1,
-    backgroundColor: "#FFF",
-    padding: 20,
-  },
-  registerContainer: {
     flex: 1,
     backgroundColor: "#FFF",
     padding: 20,
@@ -117,29 +105,18 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginBottom: 40,
   },
-  registerHeader: {
-    alignItems: "center",
-    marginTop: 40,
-    marginBottom: 30,
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   loginTitle: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#333",
-    marginTop: 20,
-  },
-  registerTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#333",
+    color: "#f48a75",
     marginTop: 20,
   },
   loginSubtitle: {
-    fontSize: 16,
-    color: "#666",
-    marginTop: 5,
-  },
-  registerSubtitle: {
     fontSize: 16,
     color: "#666",
     marginTop: 5,
@@ -155,9 +132,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 15,
   },
-  inputIcon: {
-    marginRight: 10,
-  },
   input: {
     flex: 1,
     paddingVertical: 15,
@@ -172,13 +146,7 @@ const styles = StyleSheet.create({
     right: 15,
   },
   loginButton: {
-    backgroundColor: "#f89700",
-    padding: 16,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-  registerButton: {
-    backgroundColor: "#f89700",
+    backgroundColor: "#f48a75",
     padding: 16,
     borderRadius: 12,
     alignItems: "center",
@@ -186,23 +154,6 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: "#FFF",
     fontSize: 18,
-    fontWeight: "600",
-  },
-  registerButtonText: {
-    color: "#FFF",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  loginLink: {
-    marginTop: 20,
-    alignItems: "center",
-  },
-  loginLinkText: {
-    fontSize: 16,
-    color: "#666",
-  },
-  loginLinkTextBold: {
-    color: "#f89700",
     fontWeight: "600",
   },
 });

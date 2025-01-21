@@ -1,83 +1,93 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function LandingScreen({ navigation }) {
-    return (
-        <View style={styles.landingContainer}>
-        <View style={styles.topSection}>
-            <Icon name="clipboard-outline" size={100} color="#f89700" />
-            <Text style={styles.landingTitle}>Welcome to myToDo</Text>
-            <Text style={styles.landingSubtitle}>
-                Level up your life with a to-do list.
-            </Text>
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          source={require('../assets/recipe-logo.jpg')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Recipe App</Text>
+        <Text style={styles.subtitle}>Discover and Share Your Favorite Recipes</Text>
+      </View>
 
-        <View style={styles.buttonContainer}>
-            <TouchableOpacity
-            style={[styles.button, styles.loginButton]}
-            onPress={() => navigation.navigate("Login")}
-            >
-            <Icon name="log-in-outline" size={24} color="#FFF" style={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.button, styles.loginButton]}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Icon name="log-in-outline" size={24} color="#fff" />
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
 
-            <TouchableOpacity
-            style={[styles.button, styles.registerButton]}
-            onPress={() => navigation.navigate("Register")}
-            >
-            <Icon name="person-add-outline" size={24} color="#f89700" style={styles.buttonIcon} />
-            <Text style={[styles.buttonText, styles.registerText]}>Register</Text>
-            </TouchableOpacity>
-        </View>
-        </View>
-    );
+        <TouchableOpacity
+          style={[styles.button, styles.registerButton]}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Icon name="person-add-outline" size={24} color="#e86262" />
+          <Text style={[styles.buttonText, styles.registerText]}>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    landingContainer: {
-        flex: 1,
-        backgroundColor: "#FFF",
-        padding: 20,
-    },
-    topSection: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    landingTitle: {
-        fontSize: 32,
-        fontWeight: "bold",
-        color: "#333",
-        marginTop: 20,
-        textAlign: "center",
-    },
-    landingSubtitle: {
-        fontSize: 16,
-        color: "#666",
-        marginTop: 10,
-        textAlign: "center",
-    },
-    buttonContainer: {
-        padding: 20,
-        gap: 15,
-    },
-    button: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-        borderRadius: 12,
-        borderWidth: 2,
-    },
-    loginButton: {
-        backgroundColor: "#f89700",
-        borderColor: "#f89700",
-    },
-    registerButton: {
-        backgroundColor: "#FFF",
-        borderColor: "#f89700",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 20,
+    justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#e86262',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    gap: 15,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    borderRadius: 8,
+    gap: 10,
+  },
+  loginButton: {
+    backgroundColor: '#e86262',
+  },
+  registerButton: {
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#e86262',
+  },
     buttonIcon: {
         marginRight: 10,
     },

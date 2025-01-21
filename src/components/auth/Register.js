@@ -8,9 +8,9 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  ScrollView,
+  Image
 } from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState("");
@@ -25,7 +25,7 @@ export default function RegisterScreen({ navigation }) {
     }
 
     try {
-      const response = await fetch("http://10.234.235.4:3000/api/auth/register", {
+      const response = await fetch("http://10.234.237.249:8000/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,14 +56,13 @@ export default function RegisterScreen({ navigation }) {
     >
       <ScrollView>
         <View style={styles.registerHeader}>
-          <Icon name="person-add" size={60} color="#f89700" />
+          <Image source={require('../assets/recipe-logo.jpg')} style={styles.logo} />
           <Text style={styles.registerTitle}>Create Account</Text>
           <Text style={styles.registerSubtitle}>Join us today!</Text>
         </View>
 
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
-            <Icon name="person-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Username"
@@ -74,7 +73,6 @@ export default function RegisterScreen({ navigation }) {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Icon name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -86,7 +84,6 @@ export default function RegisterScreen({ navigation }) {
           </View>
 
           <View style={styles.inputWrapper}>
-            <Icon name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={[styles.input, styles.passwordInput]}
               placeholder="Password"
@@ -99,11 +96,7 @@ export default function RegisterScreen({ navigation }) {
               onPress={() => setShowPassword(!showPassword)}
               style={styles.eyeIcon}
             >
-              <Icon 
-                name={showPassword ? "eye-off-outline" : "eye-outline"} 
-                size={20} 
-                color="#666" 
-              />
+              <Text style={{ color: '#666' }}>👁️</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -136,10 +129,15 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 30,
   },
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
+  },
   registerTitle: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#333",
+    color: "#f48a75",
     marginTop: 20,
   },
   registerSubtitle: {
@@ -158,9 +156,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 15,
   },
-  inputIcon: {
-    marginRight: 10,
-  },
   input: {
     flex: 1,
     paddingVertical: 15,
@@ -175,7 +170,7 @@ const styles = StyleSheet.create({
     right: 15,
   },
   registerButton: {
-    backgroundColor: "#f89700",
+    backgroundColor: "#f48a75",
     padding: 16,
     borderRadius: 12,
     alignItems: "center",
@@ -194,7 +189,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   loginLinkTextBold: {
-    color: "#f89700",
+    color: "#f48a75",
     fontWeight: "600",
   },
 });

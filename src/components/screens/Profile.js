@@ -13,7 +13,7 @@ export default function ProfileScreen({ onLogout }) {
         if (!tokenData) throw new Error("No token found");
 
         const { token } = JSON.parse(tokenData);
-        const response = await fetch("http://10.234.235.4:3000/api/profile", {
+        const response = await fetch("http://10.234.237.249:8000/api/profile", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginVertical: 20,
-    color: "#3B0918",
+    color: "#f48a75", // Tema warna
   },
   profileCard: {
     backgroundColor: "#ffffff",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderLeftWidth: 5,
-    borderLeftColor: "#f89700",
+    borderLeftColor: "#f48a75", // Tema warna
   },
   label: {
     fontSize: 16,
